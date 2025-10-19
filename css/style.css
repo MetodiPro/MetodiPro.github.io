@@ -84,7 +84,7 @@ a:hover {
    ============================================ */
 
 header {
-    background-color: var(--white-bg);
+    background-color: #374151;
     border-bottom: 2px solid var(--primary-color);
     position: sticky;
     top: 0;
@@ -105,7 +105,7 @@ nav .container {
 .logo h1 {
     font-size: 1.5rem;
     margin: 0;
-    color: var(--primary-color);
+    color: #ffffff;
     font-weight: 800;
 }
 
@@ -116,7 +116,7 @@ nav .container {
 }
 
 .nav-links a {
-    color: var(--text-primary);
+    color: #ffffff;
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -125,8 +125,8 @@ nav .container {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: var(--primary-color);
-    background-color: var(--hover-bg);
+    color: #ffffff;
+    background-color: var(--primary-color);
 }
 
 /* ============================================
@@ -135,7 +135,7 @@ nav .container {
 
 .hero {
     padding: 6rem 0;
-    background: linear-gradient(135deg, var(--white-bg) 0%, var(--light-bg) 100%);
+    background-color: #e5e7eb;
     position: relative;
     overflow: hidden;
 }
@@ -253,7 +253,7 @@ nav .container {
 }
 
 .service-card {
-    background-color: var(--card-bg);
+    background-color: #e5e7eb;
     padding: 2rem;
     border-radius: 1rem;
     border: 2px solid var(--border-color);
@@ -687,7 +687,7 @@ nav .container {
    ============================================ */
 
 footer {
-    background-color: var(--light-bg);
+    background-color: #374151;
     border-top: 2px solid var(--primary-color);
     padding: 3rem 0 1rem;
 }
@@ -700,14 +700,14 @@ footer {
 }
 
 .footer-section h4 {
-    color: var(--primary-color);
+    color: #ffffff;
     margin-bottom: 1rem;
     font-size: 1.125rem;
 }
 
 .footer-section p,
 .footer-section a {
-    color: var(--text-secondary);
+    color: #e5e7eb;
     font-size: 0.9375rem;
     line-height: 1.8;
 }
@@ -721,17 +721,17 @@ footer {
 }
 
 .footer-section a:hover {
-    color: var(--primary-color);
+    color: #ffffff;
 }
 
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #4b5563;
 }
 
 .footer-bottom p {
-    color: var(--text-muted);
+    color: #d1d5db;
     font-size: 0.875rem;
     margin: 0;
 }
