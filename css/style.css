@@ -559,6 +559,74 @@ nav .container {
     font-weight: bold;
 }
 
+/* Bio Content Section - Pagina Chi Sono */
+.bio-content {
+    padding: 4rem 0 2rem;
+    background-color: var(--white-bg);
+}
+
+.bio-intro {
+    text-align: center;
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.bio-intro h3 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.bio-intro .role {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.bio-intro .location {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.bio-section {
+    margin-bottom: 3rem;
+}
+
+.bio-section h3 {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.bio-section p {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.bio-cta {
+    text-align: center;
+    padding: 3rem 0 4rem;
+    margin-top: 2rem;
+}
+
+.bio-cta h3 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.bio-cta p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+}
+
 /* ============================================
    CONTACT / FORM SECTION
    ============================================ */
