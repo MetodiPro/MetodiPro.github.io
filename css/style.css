@@ -168,10 +168,16 @@ nav .container {
 .hero {
     padding: 6rem 0;
     background-color: #e5e7eb;
+    background-image: url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     position: relative;
     overflow: hidden;
 }
 
+/* Overlay semi-trasparente per migliorare la leggibilità */
 .hero::before {
     content: '';
     position: absolute;
@@ -179,8 +185,8 @@ nav .container {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 50%);
+    background: rgba(229, 231, 235, 0.85);
+    background: linear-gradient(135deg, rgba(229, 231, 235, 0.9) 0%, rgba(229, 231, 235, 0.8) 100%);
     pointer-events: none;
 }
 
@@ -343,7 +349,7 @@ nav .container {
 
 .highlights {
     padding: 5rem 0;
-    background-color: var(--white-bg);
+    background-color: var(--light-bg);
 }
 
 .highlights h2 {
@@ -380,6 +386,119 @@ nav .container {
     font-size: 1.125rem;
     color: var(--text-secondary);
     font-weight: 500;
+}
+
+/* ============================================
+   FEATURED POST SECTION
+   ============================================ */
+
+.featured-post {
+    padding: 6rem 0;
+    background-color: var(--white-bg);
+}
+
+.featured-post h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.featured-post-intro {
+    text-align: center;
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+}
+
+.featured-post-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(220, 38, 38, 0.03) 100%);
+    border: 3px solid var(--primary-color);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(220, 38, 38, 0.2);
+    transition: all 0.3s ease;
+}
+
+.featured-post-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 70px rgba(220, 38, 38, 0.25);
+}
+
+.featured-badge {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin: 2rem 0 0 2rem;
+}
+
+.featured-post-content {
+    padding: 1.5rem 2.5rem 2.5rem;
+}
+
+.featured-post-date {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.featured-post-card h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    line-height: 1.3;
+}
+
+.featured-post-excerpt {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.featured-post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.featured-post-tag {
+    background-color: var(--white-bg);
+    color: var(--primary-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 2px solid var(--primary-color);
+}
+
+.featured-post-cta {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+}
+
+.featured-post-cta:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateX(5px);
+    box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
 }
 
 /* ============================================
@@ -939,6 +1058,7 @@ footer {
     /* Hero */
     .hero {
         padding: 3rem 0;
+        background-attachment: scroll; /* Fixed non funziona bene su mobile */
     }
     
     .hero h2 {
@@ -991,6 +1111,23 @@ footer {
     
     .project-benefits {
         flex-direction: column;
+    }
+    
+    /* Featured Post */
+    .featured-post-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    .featured-badge {
+        margin: 1.5rem 0 0 1.5rem;
+    }
+    
+    .featured-post-content {
+        padding: 1rem 1.5rem 2rem;
+    }
+    
+    .featured-post-excerpt {
+        font-size: 1rem;
     }
 }
 
