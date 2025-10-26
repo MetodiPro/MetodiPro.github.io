@@ -286,11 +286,12 @@ nav .container {
 
 .service-card {
     background-color: #e5e7eb;
-    padding: 2rem;
+    padding: 0;
     border-radius: 1rem;
     border: 2px solid var(--border-color);
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
 .service-card:hover {
@@ -299,15 +300,35 @@ nav .container {
     box-shadow: 0 10px 30px rgba(220, 38, 38, 0.15);
 }
 
+.service-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.05);
+}
+
 .service-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
+    padding: 1.5rem 2rem 0;
 }
 
 .service-card p {
     color: var(--text-secondary);
     line-height: 1.8;
+    padding: 0 2rem 2rem;
 }
 
 /* ============================================
