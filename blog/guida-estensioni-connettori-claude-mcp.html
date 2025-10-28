@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guida tecnica completa alle estensioni e ai connettori MCP di Claude Desktop. Analisi architetturale, best practices e casi d'uso.">
+    <meta name="keywords" content="Claude Desktop, MCP, Model Context Protocol, Desktop Extensions, Connectors, AI Integration">
+    <title>Claude Desktop: Guida Completa Estensioni e Connettori MCP | METODI.Pro</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <h1>METODI.Pro</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../chi-sono.html">Chi Sono</a></li>
+                    <li><a href="../progetti.html">Progetti</a></li>
+                    <li><a href="../blog.html" class="active">Blog</a></li>
+                    <li><a href="../contatti.html">Contatti</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-post-header">
+                <div class="blog-meta">
+                    <span class="blog-date">📅 28 Ottobre 2025</span>
+                    <span class="blog-reading-time">⏱️ 45 min lettura</span>
+                    <span class="blog-author">👤 Raffaele Santone</span>
+                </div>
+                <h1>Claude Desktop: Guida Tecnica Completa alle Estensioni e ai Connettori MCP</h1>
+                <p class="blog-subtitle">Analisi approfondita del Model Context Protocol, architettura, sicurezza e best practices per l'integrazione AI</p>
+                <div class="blog-tags">
+                    <span class="tag tag-tech">AI Integration</span>
+                    <span class="tag tag-dev">MCP Protocol</span>
+                    <span class="tag tag-guide">Technical Guide</span>
+                </div>
+            </div>
+
+            <div class="blog-post-content">
+                <div class="summary-box">
+                    <h3>Executive Summary</h3>
+                    <p>
+                        L'ecosistema Claude Desktop ha subito una trasformazione radicale con l'introduzione del <strong>Model Context Protocol (MCP)</strong>, 
+                        un protocollo standardizzato che consente l'integrazione nativa tra modelli di intelligenza artificiale e strumenti esterni. 
+                        Questo articolo analizza in dettaglio l'architettura, le funzionalità e le applicazioni pratiche delle 
+                        <strong>Desktop Extensions</strong> e dei <strong>Connectors</strong>, fornendo una panoramica tecnica completa per 
+                        professionisti e sviluppatori.
+                    </p>
+                </div>
+
+                <h2>Indice</h2>
+                <ol class="table-of-contents">
+                    <li><a href="#architettura-mcp">Architettura del Model Context Protocol</a></li>
+                    <li><a href="#desktop-extensions">Desktop Extensions: Integrazione Locale</a></li>
+                    <li><a href="#connectors">Connectors: Integrazione Cloud</a></li>
+                    <li><a href="#differenze">Differenze Tecniche e Casi d'Uso</a></li>
+                    <li><a href="#sicurezza">Sicurezza e Best Practices</a></li>
+                    <li><a href="#ecosistema">Ecosistema e Directory</a></li>
+                    <li><a href="#conclusioni">Conclusioni</a></li>
+                </ol>
+
+                <hr>
+
+                <h2 id="architettura-mcp">1. Architettura del Model Context Protocol</h2>
+
+                <h3>1.1 Fondamenti Tecnici</h3>
+                <p>
+                    Il <strong>Model Context Protocol (MCP)</strong> rappresenta uno standard aperto sviluppato da Anthropic per standardizzare 
+                    la comunicazione tra client AI e server di strumenti esterni. L'architettura si basa su tre componenti principali:
+                </p>
+
+                <ul>
+                    <li><strong>MCP Client</strong>: L'applicazione AI (Claude Desktop/Web) che richiede informazioni o esecuzione di task</li>
+                    <li><strong>MCP Server</strong>: Il gateway che si connette a strumenti specifici (database, filesystem, API)</li>
+                    <li><strong>Transport Layer</strong>: Protocollo di comunicazione basato su JSON-RPC</li>
+                </ul>
+
+                <h3>1.2 Vantaggi Architetturali</h3>
+                <p>L'adozione di MCP risolve problematiche storiche nell'integrazione di AI:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔌 Plug-and-Play</h4>
+                        <p>Una volta implementato il supporto MCP, qualsiasi client compatibile può utilizzare il server</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📈 Scalabilità</h4>
+                        <p>Aggiunta di nuovi strumenti senza riscrivere l'intera infrastruttura</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🔄 Interoperabilità</h4>
+                        <p>Compatibilità cross-vendor (Claude, OpenAI, Google DeepMind)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚙️ Standardizzazione</h4>
+                        <p>Riduzione della complessità manutentiva</p>
+                    </div>
+                </div>
+
+                <h3>1.3 Protocolli di Trasporto</h3>
+                <p>MCP supporta due modalità di trasporto:</p>
+
+                <ol>
+                    <li><strong>STDIO (Standard Input/Output)</strong>: Utilizzato per server locali, comunicazione diretta processo-processo</li>
+                    <li><strong>HTTP/SSE (Server-Sent Events)</strong>: Utilizzato per server remoti, comunicazione web-based</li>
+                </ol>
+
+                <hr>
+
+                <h2 id="desktop-extensions">2. Desktop Extensions: Integrazione Locale</h2>
+
+                <h3>2.1 Definizione e Configurazione</h3>
+                <p>
+                    Le <strong>Desktop Extensions</strong> sono server MCP eseguiti localmente sul computer dell'utente. 
+                    Si configurano tramite il file <code>claude_desktop_config.json</code> e vengono avviate automaticamente 
+                    all'apertura di Claude Desktop.
+                </p>
+
+                <div class="code-block">
+                    <h4>Esempio Configurazione Desktop Extension</h4>
+                    <pre><code>{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/username/Desktop"],
+      "env": {}
+    },
+    "postgres": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/postgres", "postgresql://user:pass@localhost/db"],
+      "env": {}
+    }
+  }
+}</code></pre>
+                </div>
+
+                <h3>2.2 Extensions Più Utilizzate</h3>
+
+                <div class="extensions-list">
+                    <div class="extension-card">
+                        <h4>📁 Filesystem Server</h4>
+                        <p><strong>Funzionalità</strong>: Accesso diretto al filesystem locale</p>
+                        <ul>
+                            <li>Lettura e scrittura file</li>
+                            <li>Navigazione directory</li>
+                            <li>Ricerca contenuti</li>
+                            <li>Gestione permessi</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Analisi codebase, gestione progetti, refactoring</p>
+                    </div>
+
+                    <div class="extension-card">
+                        <h4>🗄️ Database Servers</h4>
+                        <p><strong>Supporto</strong>: PostgreSQL, MySQL, SQLite</p>
+                        <ul>
+                            <li>Query SQL dirette</li>
+                            <li>Schema inspection</li>
+                            <li>Data migration</li>
+                            <li>Performance analysis</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Database administration, data analysis, debugging</p>
+                    </div>
+
+                    <div class="extension-card">
+                        <h4>🐳 Docker Server</h4>
+                        <p><strong>Funzionalità</strong>: Gestione container e orchestrazione</p>
+                        <ul>
+                            <li>Container lifecycle management</li>
+                            <li>Image building e deployment</li>
+                            <li>Network configuration</li>
+                            <li>Volume management</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: DevOps automation, microservices development</p>
+                    </div>
+
+                    <div class="extension-card">
+                        <h4>💻 Terminal Server</h4>
+                        <p><strong>Funzionalità</strong>: Esecuzione comandi shell</p>
+                        <ul>
+                            <li>Bash/Zsh/PowerShell support</li>
+                            <li>Script automation</li>
+                            <li>System diagnostics</li>
+                            <li>CI/CD integration</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: System administration, automation scripting</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h2 id="connectors">3. Connectors: Integrazione Cloud</h2>
+
+                <h3>3.1 Architettura e Autenticazione</h3>
+                <p>
+                    I <strong>Connectors</strong> sono integrazioni gestite da Anthropic che collegano Claude a servizi cloud di terze parti. 
+                    A differenza delle Desktop Extensions, non richiedono configurazione locale e utilizzano OAuth 2.0 per l'autenticazione sicura.
+                </p>
+
+                <blockquote>
+                    "I Connectors rappresentano il ponte tra l'intelligenza di Claude e l'ecosistema produttivo moderno, 
+                    permettendo interazioni dirette con i tool che le aziende usano quotidianamente."
+                </blockquote>
+
+                <h3>3.2 Connectors Disponibili</h3>
+
+                <div class="connectors-grid">
+                    <div class="connector-card">
+                        <h4>📝 Notion</h4>
+                        <p><strong>Capabilities</strong>:</p>
+                        <ul>
+                            <li><code>search</code>: Ricerca cross-workspace (include Slack, Drive, Jira)</li>
+                            <li><code>fetch</code>: Recupero contenuto da URL specifici</li>
+                            <li><code>create-pages</code>: Creazione multipla pagine</li>
+                            <li><code>update-page</code>: Modifica proprietà e contenuto</li>
+                            <li><code>move-pages</code>: Spostamento tra workspace</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Knowledge base management, documentazione tecnica, project planning</p>
+                    </div>
+
+                    <div class="connector-card">
+                        <h4>🐙 GitHub</h4>
+                        <p><strong>Capabilities</strong>:</p>
+                        <ul>
+                            <li><code>list-repositories</code>: Elenco repository accessibili</li>
+                            <li><code>get-file-contents</code>: Lettura file da repository</li>
+                            <li><code>create-pull-request</code>: Creazione PR automatizzate</li>
+                            <li><code>list-issues</code>: Gestione issue tracker</li>
+                            <li><code>search-code</code>: Ricerca nel codice sorgente</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Code review automation, CI/CD orchestration, issue triage</p>
+                    </div>
+
+                    <div class="connector-card">
+                        <h4>💬 Slack</h4>
+                        <p><strong>Capabilities</strong>:</p>
+                        <ul>
+                            <li><code>send-message</code>: Invio messaggi in canali</li>
+                            <li><code>search-messages</code>: Ricerca storico conversazioni</li>
+                            <li><code>list-channels</code>: Elenco canali workspace</li>
+                            <li><code>get-user-info</code>: Informazioni utenti</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Team communication automation, incident response, status updates</p>
+                    </div>
+
+                    <div class="connector-card">
+                        <h4>📊 Google Drive</h4>
+                        <p><strong>Capabilities</strong>:</p>
+                        <ul>
+                            <li><code>search</code>: Ricerca semantica documenti</li>
+                            <li><code>read-file</code>: Lettura contenuti (Docs, Sheets, Slides)</li>
+                            <li><code>create-file</code>: Creazione nuovi documenti</li>
+                            <li><code>update-file</code>: Modifica documenti esistenti</li>
+                        </ul>
+                        <p><strong>Caso d'uso</strong>: Document processing, report generation, collaborative editing</p>
+                    </div>
+                </div>
+
+                <h3>3.3 Workflow di Attivazione</h3>
+                <ol class="workflow-steps">
+                    <li><strong>Navigazione</strong>: Accesso a <code>claude.ai/directory</code></li>
+                    <li><strong>Autorizzazione</strong>: Click su "Connect" e OAuth flow</li>
+                    <li><strong>Scope Definition</strong>: Definizione permessi (read/write)</li>
+                    <li><strong>Token Generation</strong>: Generazione access token sicuro</li>
+                    <li><strong>Attivazione</strong>: Connettore disponibile nelle conversazioni</li>
+                </ol>
+
+                <hr>
+
+                <h2 id="differenze">4. Differenze Tecniche e Casi d'Uso</h2>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Caratteristica</th>
+                            <th>Desktop Extensions</th>
+                            <th>Connectors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Esecuzione</strong></td>
+                            <td>Locale (sul tuo computer)</td>
+                            <td>Cloud (server Anthropic)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Configurazione</strong></td>
+                            <td>File JSON manuale</td>
+                            <td>OAuth one-click</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accesso Dati</strong></td>
+                            <td>Filesystem, database locali</td>
+                            <td>API cloud di terze parti</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sicurezza</strong></td>
+                            <td>Dati restano sul dispositivo</td>
+                            <td>Encrypted transmission via TLS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scalabilità</strong></td>
+                            <td>Limitata alle risorse locali</td>
+                            <td>Illimitata (cloud infrastructure)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Latenza</strong></td>
+                            <td>Minima (locale)</td>
+                            <td>Dipende da rete/API</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4.1 Quando Usare Desktop Extensions</h3>
+                <div class="use-case-box success">
+                    <h4>✅ Scenari Ideali</h4>
+                    <ul>
+                        <li>Progetti sensibili con requisiti di data residency</li>
+                        <li>Ambienti offline o con connettività limitata</li>
+                        <li>Integrazione con tool proprietari aziendali</li>
+                        <li>Workflow che richiedono accesso filesystem diretto</li>
+                        <li>Database on-premise senza esposizione esterna</li>
+                    </ul>
+                </div>
+
+                <h3>4.2 Quando Usare Connectors</h3>
+                <div class="use-case-box primary">
+                    <h4>✅ Scenari Ideali</h4>
+                    <ul>
+                        <li>Integrazione con SaaS già utilizzato (Notion, Slack, GitHub)</li>
+                        <li>Workflow collaborativi multi-utente</li>
+                        <li>Operazioni che beneficiano di scalabilità cloud</li>
+                        <li>Setup rapido senza configurazione tecnica</li>
+                        <li>Necessità di sincronizzazione real-time</li>
+                    </ul>
+                </div>
+
+                <hr>
+
+                <h2 id="sicurezza">5. Sicurezza e Best Practices</h2>
+
+                <h3>5.1 Principi di Sicurezza MCP</h3>
+
+                <div class="security-principles">
+                    <div class="security-card">
+                        <h4>🔐 Principle of Least Privilege</h4>
+                        <p>Ogni server MCP dovrebbe avere solo i permessi minimi necessari per la sua funzione</p>
+                    </div>
+
+                    <div class="security-card">
+                        <h4>🛡️ Sandboxing</h4>
+                        <p>Utilizzo di container Docker per isolare le extension dal sistema host</p>
+                    </div>
+
+                    <div class="security-card">
+                        <h4>🔍 Audit Logging</h4>
+                        <p>Tracciamento completo di tutte le operazioni eseguite dai server MCP</p>
+                    </div>
+
+                    <div class="security-card">
+                        <h4>🔑 Credential Management</h4>
+                        <p>Uso di secret manager per gestire API keys e database credentials</p>
+                    </div>
+                </div>
+
+                <h3>5.2 Best Practices Implementative</h3>
+
+                <ol class="best-practices">
+                    <li>
+                        <strong>Validazione Input</strong>: Sempre validare e sanitizzare input da Claude prima dell'esecuzione
+                        <pre><code>// Esempio validazione path
+if (!path.startsWith(ALLOWED_BASE_PATH)) {
+    throw new Error('Path access denied');
+}</code></pre>
+                    </li>
+                    <li>
+                        <strong>Rate Limiting</strong>: Implementare limiti di richieste per prevenire abuse
+                    </li>
+                    <li>
+                        <strong>Timeout Configuration</strong>: Definire timeout appropriati per evitare blocking
+                    </li>
+                    <li>
+                        <strong>Error Handling</strong>: Gestione robusta degli errori con logging dettagliato
+                    </li>
+                    <li>
+                        <strong>Version Pinning</strong>: Specificare versioni esatte delle dipendenze MCP
+                    </li>
+                </ol>
+
+                <h3>5.3 Considerazioni GDPR e Privacy</h3>
+                <div class="privacy-box">
+                    <h4>⚖️ Compliance Considerations</h4>
+                    <ul>
+                        <li><strong>Data Processing Agreement</strong>: Anthropic agisce come data processor per i Connectors</li>
+                        <li><strong>Data Retention</strong>: I log delle conversazioni sono soggetti alle policy di retention di Claude</li>
+                        <li><strong>Right to Erasure</strong>: Gli utenti possono richiedere cancellazione dei dati tramite support</li>
+                        <li><strong>Cross-Border Transfer</strong>: Dati processati nei datacenter certificati di Anthropic</li>
+                    </ul>
+                </div>
+
+                <hr>
+
+                <h2 id="ecosistema">6. Ecosistema e Directory</h2>
+
+                <h3>6.1 MCP Directory</h3>
+                <p>
+                    Anthropic mantiene una directory ufficiale di server MCP verificati accessibile su 
+                    <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">GitHub</a>. 
+                    La directory include:
+                </p>
+
+                <ul>
+                    <li>Server ufficiali sviluppati da Anthropic</li>
+                    <li>Server community-contributed verificati</li>
+                    <li>Template e starter kit per sviluppatori</li>
+                    <li>Documentazione API completa</li>
+                </ul>
+
+                <h3>6.2 Sviluppare Server MCP Custom</h3>
+                <p>Gli sviluppatori possono creare server MCP custom utilizzando gli SDK ufficiali:</p>
+
+                <div class="sdk-options">
+                    <div class="sdk-card">
+                        <h4>TypeScript SDK</h4>
+                        <pre><code>npm install @modelcontextprotocol/sdk</code></pre>
+                        <p>Ideale per integrazioni JavaScript/Node.js</p>
+                    </div>
+                    <div class="sdk-card">
+                        <h4>Python SDK</h4>
+                        <pre><code>pip install mcp</code></pre>
+                        <p>Perfetto per data science e ML workflows</p>
+                    </div>
+                </div>
+
+                <h3>6.3 Esempio: Server Custom per API Interna</h3>
+                <pre><code>import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+
+const server = new Server({
+  name: "custom-api-server",
+  version: "1.0.0"
+}, {
+  capabilities: {
+    tools: {}
+  }
+});
+
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
+  tools: [{
+    name: "query_internal_api",
+    description: "Query company internal API",
+    inputSchema: {
+      type: "object",
+      properties: {
+        endpoint: { type: "string" },
+        method: { type: "string", enum: ["GET", "POST"] }
+      }
+    }
+  }]
+}));
+
+const transport = new StdioServerTransport();
+await server.connect(transport);</code></pre>
+
+                <hr>
+
+                <h2 id="conclusioni">7. Conclusioni</h2>
+
+                <p>
+                    Il Model Context Protocol rappresenta un cambio di paradigma nell'integrazione tra AI e strumenti di produttività. 
+                    La distinzione tra <strong>Desktop Extensions</strong> e <strong>Connectors</strong> offre flessibilità senza precedenti:
+                </p>
+
+                <div class="conclusion-box">
+                    <h3>🎯 Takeaway Principali</h3>
+                    <ul>
+                        <li><strong>Standardizzazione</strong>: MCP elimina la frammentazione nell'ecosistema AI tooling</li>
+                        <li><strong>Flessibilità</strong>: Extensions per controllo locale, Connectors per convenienza cloud</li>
+                        <li><strong>Sicurezza</strong>: Architettura progettata con security-by-design</li>
+                        <li><strong>Scalabilità</strong>: Ecosistema in rapida crescita con contributi community</li>
+                        <li><strong>Produttività</strong>: Riduzione drastica del tempo di integrazione</li>
+                    </ul>
+                </div>
+
+                <h3>7.1 Prospettive Future</h3>
+                <p>
+                    L'ecosistema MCP è in rapida evoluzione. Tra le innovazioni attese:
+                </p>
+
+                <ul>
+                    <li>Supporto per streaming real-time</li>
+                    <li>Marketplace ufficiale di server MCP verificati</li>
+                    <li>Integrazione con modelli open-source (Llama, Mistral)</li>
+                    <li>SDK aggiuntivi per Go, Rust, Java</li>
+                    <li>Tool composition avanzata (chain multiple servers)</li>
+                </ul>
+
+                <blockquote>
+                    "MCP non è solo un protocollo tecnico, ma una visione per rendere l'AI veramente utile nel contesto operativo quotidiano. 
+                    La vera potenza emerge quando strumenti diversi collaborano seamlessly."
+                </blockquote>
+
+                <div style="margin-top: 3rem; padding: 2rem; background-color: #e5e7eb; border-radius: 0.5rem; border-left: 4px solid var(--primary-color);">
+                    <h3 style="margin-top: 0;">Hai bisogno di consulenza per integrare MCP nella tua infrastruttura?</h3>
+                    <p style="margin-bottom: 1rem;">
+                        METODI.Pro offre servizi specializzati di implementazione e ottimizzazione MCP per aziende che vogliono 
+                        massimizzare il valore delle integrazioni AI.
+                    </p>
+                    <a href="../contatti.html" class="btn btn-primary">Richiedi una Consulenza Tecnica</a>
+                </div>
+
+                <hr style="margin-top: 3rem;">
+
+                <div class="author-bio">
+                    <h3>Sull'Autore</h3>
+                    <p>
+                        <strong>Raffaele Santone</strong> è consulente specializzato in AI Integration e sviluppo applicazioni enterprise. 
+                        Con esperienza pluriennale nell'implementazione di soluzioni MCP per clienti enterprise, 
+                        aiuta le aziende a sfruttare al massimo le potenzialità dell'AI integrata nei workflow operativi.
+                    </p>
+                    <p>
+                        <a href="https://www.linkedin.com/in/raffaele-santone" target="_blank" rel="noopener">LinkedIn</a> | 
+                        <a href="https://github.com/MetodiPro" target="_blank" rel="noopener">GitHub</a>
+                    </p>
+                </div>
+
+                <div class="article-footer">
+                    <p><strong>Pubblicato</strong>: 28 Ottobre 2025</p>
+                    <p><strong>Ultima Revisione</strong>: 28 Ottobre 2025</p>
+                    <p><strong>Versione</strong>: 1.0</p>
+                    <p><strong>Keywords</strong>: Claude Desktop, MCP, Model Context Protocol, Desktop Extensions, Connectors, AI Integration, Enterprise AI</p>
+                    <p><strong>Licenza</strong>: © 2025 MetodiPro. Tutti i diritti riservati.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>METODI.Pro</h4>
+                    <p>Consulenza & Sviluppo Applicazioni</p>
+                    <p>Specializzati in AI Integration e MCP</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Link Utili</h4>
+                    <ul>
+                        <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../disclaimer.html">Disclaimer</a></li>
+                        <li><a href="../blog.html">Tutti gli articoli</a></li>
+                        <li><a href="../progetti.html">Portfolio Progetti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contatti</h4>
+                    <p>Email: raffaele.santone@metodi.pro</p>
+                    <p><a href="https://www.linkedin.com/in/raffaele-santone" target="_blank" rel="noopener">LinkedIn</a></p>
+                    <p><a href="https://github.com/MetodiPro" target="_blank" rel="noopener">GitHub</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 METODI.Pro. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
