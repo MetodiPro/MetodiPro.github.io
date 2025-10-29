@@ -15,10 +15,10 @@
         }
         
         .article-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: white;
+            color: #333;
             padding: 60px 20px;
-            border-radius: 0 0 30px 30px;
+            border-bottom: 1px solid #e9ecef;
             margin-bottom: 40px;
         }
         
@@ -26,12 +26,14 @@
             font-size: 2.5rem;
             margin-bottom: 20px;
             line-height: 1.2;
+            color: #dc3545;
         }
         
         .article-hero .subtitle {
             font-size: 1.2rem;
-            opacity: 0.95;
+            opacity: 0.7;
             margin-bottom: 30px;
+            color: #666;
         }
         
         .meta-info {
@@ -39,6 +41,7 @@
             flex-wrap: wrap;
             gap: 20px;
             font-size: 0.95rem;
+            color: #666;
         }
         
         .meta-item {
@@ -55,7 +58,9 @@
         }
         
         .tag {
-            background: rgba(255,255,255,0.2);
+            background: #f8f9fa;
+            color: #dc3545;
+            border: 1px solid #dc3545;
             padding: 6px 15px;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -792,32 +797,88 @@
                     
                     <h3>⚙️ Architettura Client-Server</h3>
                     
-                    <div class="code-example">
-┌─────────────────────────────────────────────────────────┐
-│                    Claude Desktop (Host)                 │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │            MCP Client Runtime                     │  │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐      │  │
-│  │  │ Connector│  │ Connector│  │ Connector│ ...  │  │
-│  │  │ Manager  │  │  Router  │  │  Cache   │      │  │
-│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘      │  │
-│  └───────┼─────────────┼─────────────┼────────────┘  │
-│          │             │             │                │
-│          │    JSON-RPC 2.0 over stdio/WebSocket     │
-│          │             │             │                │
-└──────────┼─────────────┼─────────────┼────────────────┘
-           │             │             │
-           ▼             ▼             ▼
-┌──────────────────────────────────────────────────────────┐
-│              MCP Server Instances                         │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐            │
-│  │Filesystem│   │  GitHub  │   │ Database │   ...      │
-│  │  Server  │   │  Server  │   │  Server  │            │
-│  └────┬─────┘   └────┬─────┘   └────┬─────┘            │
-│       │              │              │                    │
-│       ▼              ▼              ▼                    │
-│  Local FS      GitHub API     PostgreSQL/MongoDB        │
-└──────────────────────────────────────────────────────────┘
+                    <div style="background: #f8f9fa; padding: 30px; border-radius: 10px; margin: 20px 0;">
+                        <div style="max-width: 900px; margin: 0 auto;">
+                            
+                            <!-- LIVELLO 1: Claude Desktop -->
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">🖥️ Claude Desktop (Host)</h4>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">Applicazione principale che gestisce l'interazione con l'utente</p>
+                            </div>
+                            
+                            <!-- Freccia verso il basso -->
+                            <div style="text-align: center; margin: 15px 0;">
+                                <div style="width: 3px; height: 30px; background: #667eea; margin: 0 auto;"></div>
+                                <div style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid #667eea; margin: 0 auto;"></div>
+                            </div>
+                            
+                            <!-- LIVELLO 2: MCP Client Runtime -->
+                            <div style="background: white; border: 3px solid #667eea; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 15px 0; color: #667eea; text-align: center; font-size: 1.2rem;">🔧 MCP Client Runtime</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>📋 Manager</strong><br>
+                                        <span style="font-size: 0.9rem; color: #666;">Gestisce connessioni</span>
+                                    </div>
+                                    <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>🔀 Router</strong><br>
+                                        <span style="font-size: 0.9rem; color: #666;">Indirizza richieste</span>
+                                    </div>
+                                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; text-align: center;">
+                                        <strong>💾 Cache</strong><br>
+                                        <span style="font-size: 0.9rem; color: #666;">Ottimizza performance</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Comunicazione -->
+                            <div style="background: linear-gradient(90deg, rgba(102,126,234,0.1) 0%, rgba(102,126,234,0.1) 100%); padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0; border: 2px dashed #667eea;">
+                                <strong style="color: #667eea;">📡 JSON-RPC 2.0</strong> over stdio/WebSocket
+                            </div>
+                            
+                            <!-- LIVELLO 3: MCP Servers -->
+                            <div style="background: white; border: 3px solid #28a745; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 15px 0; color: #28a745; text-align: center; font-size: 1.2rem;">🖥️ MCP Server Instances</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                                    <div style="background: #f8f9fa; border: 2px solid #28a745; padding: 15px; border-radius: 8px;">
+                                        <div style="text-align: center; margin-bottom: 10px;">
+                                            <strong style="color: #28a745;">📁 Filesystem</strong>
+                                        </div>
+                                        <div style="font-size: 0.85rem; color: #666; text-align: center;">
+                                            Accesso a file locali
+                                        </div>
+                                    </div>
+                                    <div style="background: #f8f9fa; border: 2px solid #28a745; padding: 15px; border-radius: 8px;">
+                                        <div style="text-align: center; margin-bottom: 10px;">
+                                            <strong style="color: #28a745;">💻 GitHub</strong>
+                                        </div>
+                                        <div style="font-size: 0.85rem; color: #666; text-align: center;">
+                                            Repository e codice
+                                        </div>
+                                    </div>
+                                    <div style="background: #f8f9fa; border: 2px solid #28a745; padding: 15px; border-radius: 8px;">
+                                        <div style="text-align: center; margin-bottom: 10px;">
+                                            <strong style="color: #28a745;">🗄️ Database</strong>
+                                        </div>
+                                        <div style="font-size: 0.85rem; color: #666; text-align: center;">
+                                            PostgreSQL/MongoDB
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- LIVELLO 4: Sistemi Target -->
+                            <div style="text-align: center; margin: 15px 0;">
+                                <div style="width: 3px; height: 30px; background: #28a745; margin: 0 auto;"></div>
+                                <div style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid #28a745; margin: 0 auto;"></div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">🎯 Sistemi Target</h4>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">File System Locale • GitHub API • Database • Cloud Storage</p>
+                            </div>
+                            
+                        </div>
                     </div>
                     
                     <h4>🔄 Communication Flow</h4>
