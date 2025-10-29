@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>METODI.Pro Blog</title>
+    <link>https://www.metodi.pro/blog.html</link>
+    <description>Blog su Vibe Coding, AI, sviluppo applicazioni e tecnologie innovative</description>
+    <language>it</language>
+    <atom:link href="https://www.metodi.pro/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title>Guida Completa alle Estensioni e Connettori Claude Desktop (MCP)</title>
+      <link>https://www.metodi.pro/blog/guida-estensioni-connettori-claude-desktop-mcp.html</link>
+      <description>Analisi tecnica approfondita del Model Context Protocol: architettura, sicurezza, best practices e implementazioni enterprise. Una guida completa per sviluppatori e system architect.</description>
+      <pubDate>Mon, 28 Oct 2024 10:00:00 +0100</pubDate>
+      <guid>https://www.metodi.pro/blog/guida-estensioni-connettori-claude-desktop-mcp.html</guid>
+    </item>
+    
+    <item>
+      <title>Nexus CRM: La Soluzione Completa per Consulenti Energetici</title>
+      <link>https://www.metodi.pro/blog/nexus-crm-caso-studio.html</link>
+      <description>Case study approfondito di Nexus CRM, il sistema di gestione clienti progettato specificamente per consulenti energetici. Scopri come ottimizzare la gestione delle pratiche e aumentare l'efficienza operativa.</description>
+      <pubDate>Sat, 19 Oct 2024 14:30:00 +0100</pubDate>
+      <guid>https://www.metodi.pro/blog/nexus-crm-caso-studio.html</guid>
+    </item>
+    
+    <item>
+      <title>Vibe Coding: Il Futuro dello Sviluppo Software con l'AI</title>
+      <link>https://www.metodi.pro/blog/vibe-coding-futuro-sviluppo-software.html</link>
+      <description>Esplora il Vibe Coding e scopri come strumenti AI come Claude Code, Lovable e Cursor stanno rivoluzionando lo sviluppo software. Dalla prototipazione rapida al deployment automatizzato.</description>
+      <pubDate>Sat, 19 Oct 2024 14:00:00 +0100</pubDate>
+      <guid>https://www.metodi.pro/blog/vibe-coding-futuro-sviluppo-software.html</guid>
+    </item>
+    
+  </channel>
+</rss>
