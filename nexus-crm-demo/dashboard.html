@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS CRM - Dashboard Demo Interattiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nexus-red': '#dc2626',
+                        'nexus-dark': '#374151',
+                        'nexus-blue': '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .demo-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6); }
+        }
+        .table-row {
+            transition: background-color 0.2s ease;
+        }
+        .table-row:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Demo Banner -->
+    <div class="demo-badge fixed top-4 right-4 z-50 bg-nexus-red text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+        <i class="fas fa-eye mr-2"></i>Demo Interattiva
+    </div>
+
+    <!-- Sidebar -->
+    <div class="fixed left-0 top-0 h-full w-64 bg-nexus-dark text-white p-6 shadow-xl z-40">
+        <div class="flex items-center space-x-3 mb-10">
+            <div class="w-10 h-10 bg-nexus-red rounded-lg flex items-center justify-center">
+                <i class="fas fa-bolt text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold">NEXUS CRM</h1>
+                <p class="text-xs text-gray-400">Demo Version</p>
+            </div>
+        </div>
+
+        <nav class="space-y-2">
+            <a href="#dashboard" onclick="showSection('dashboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg bg-nexus-red">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#clients" onclick="showSection('clients')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-users"></i>
+                <span>Clienti</span>
+            </a>
+            <a href="#contracts" onclick="showSection('contracts')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-file-contract"></i>
+                <span>Contratti</span>
+            </a>
+            <a href="#utilities" onclick="showSection('utilities')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-plug"></i>
+                <span>Utenze</span>
+            </a>
+            <a href="#activities" onclick="showSection('activities')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Attività</span>
+            </a>
+        </nav>
+
+        <div class="absolute bottom-6 left-6 right-6">
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-nexus-red rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-sm">Demo User</p>
+                        <p class="text-xs text-gray-400">Admin</p>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="mt-4 block text-center text-sm text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>Torna alla Landing
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div class="mb-8 flex items-center justify-between">
+            <div>
+                <h2 class="text-3xl font-bold text-nexus-dark">Dashboard</h2>
+                <p class="text-gray-600 mt-1">Panoramica completa della tua attività</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-white px-4 py-2 rounded-lg shadow text-sm text-gray-600">
+                    <i class="fas fa-calendar mr-2 text-nexus-red"></i>
+                    <span id="currentDate"></span>
+                </div>
+                <button onclick="refreshData()" class="bg-nexus-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                    <i class="fas fa-sync-alt mr-2"></i>Aggiorna
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="section-dashboard" class="section-content">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-nexus-blue text-xl"></i>
+                        </div>
+                        <span class="text-green-600 text-sm font-semibold">+12%</span>
+                    </div>
+                    <h3 class="text-gray-600 text-sm font-medium mb-1">Clienti Totali</h3>
+                    <p class="text-3xl font-bold text-nexus-dark" id="totalClients">247</p>
+                </div>
+
+                <div class="stat-card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-contract text-green-600 text-xl"></i>
+                        </div>
+                        <span class="text-green-600 text-sm font-semibold">+8%</span>
+                    </div>
+                    <h3 class="text-gray-600 text-sm font-medium mb-1">Contratti Attivi</h3>
+                    <p class="text-3xl font-bold text-nexus-dark" id="activeContracts">189</p>
+                </div>
+
+                <div class="stat-card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-exclamation-triangle text-nexus-red text-xl"></i>
+                        </div>
+                        <span class="text-orange-600 text-sm font-semibold">Attenzione</span>
+                    </div>
+                    <h3 class="text-gray-600 text-sm font-medium mb-1">In Scadenza</h3>
+                    <p class="text-3xl font-bold text-nexus-dark" id="expiringContracts">23</p>
+                </div>
+
+                <div class="stat-card bg-white p-6 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calendar-check text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="text-blue-600 text-sm font-semibold">Oggi</span>
+                    </div>
+                    <h3 class="text-gray-600 text-sm font-medium mb-1">Attività Programmate</h3>
+                    <p class="text-3xl font-bold text-nexus-dark" id="todayActivities">7</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-nexus-dark mb-4">Trend Contratti (12 mesi)</h3>
+                    <canvas id="contractsChart"></canvas>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-lg font-bold text-nexus-dark mb-4">Clienti per Stato</h3>
+                    <canvas id="clientsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold text-nexus-dark mb-4">Attività Recenti</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4 pb-4 border-b">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-nexus-dark">Contratto firmato con Mario Rossi</p>
+                            <p class="text-sm text-gray-600">Contratto luce residenziale • 2 ore fa</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 pb-4 border-b">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user-plus text-nexus-blue"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-nexus-dark">Nuovo cliente: Laura Bianchi</p>
+                            <p class="text-sm text-gray-600">Aggiunto al database • 5 ore fa</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4 pb-4 border-b">
+                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-calendar text-orange-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-nexus-dark">Appuntamento programmato</p>
+                            <p class="text-sm text-gray-600">Consulenza con Giuseppe Verdi • Domani alle 10:00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-file-upload text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-nexus-dark">Bolletta importata</p>
+                            <p class="text-sm text-gray-600">POD IT001E12345678 • Ieri alle 14:30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clients Section -->
+        <div id="section-clients" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-nexus-dark">Gestione Clienti</h3>
+                    <button class="bg-nexus-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Nuovo Cliente
+                    </button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="mb-6">
+                    <input type="text" placeholder="Cerca clienti..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nexus-red focus:border-transparent">
+                </div>
+
+                <!-- Clients Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50 border-b">
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Cliente</th>
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Email</th>
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Telefono</th>
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Stato</th>
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Contratti</th>
+                                <th class="text-left p-4 text-sm font-semibold text-gray-700">Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <tr class="table-row border-b">
+                                <td class="p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-nexus-blue rounded-full flex items-center justify-center text-white font-bold">
+                                            MR
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-nexus-dark">Mario Rossi</p>
+                                            <p class="text-sm text-gray-500">CF: RSSMRA80A01H501Z</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-gray-600">mario.rossi@email.com</td>
+                                <td class="p-4 text-gray-600">+39 335 1234567</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Attivo</span>
+                                </td>
+                                <td class="p-4 text-center font-semibold text-nexus-dark">3</td>
+                                <td class="p-4">
+                                    <button class="text-nexus-blue hover:text-blue-700 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-700 mr-3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row border-b">
+                                <td class="p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                                            LB
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-nexus-dark">Laura Bianchi</p>
+                                            <p class="text-sm text-gray-500">CF: BNCLRA85E45F205P</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-gray-600">laura.bianchi@email.com</td>
+                                <td class="p-4 text-gray-600">+39 348 9876543</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">Prospect</span>
+                                </td>
+                                <td class="p-4 text-center font-semibold text-nexus-dark">1</td>
+                                <td class="p-4">
+                                    <button class="text-nexus-blue hover:text-blue-700 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-700 mr-3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row border-b">
+                                <td class="p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                                            GV
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-nexus-dark">Giuseppe Verdi</p>
+                                            <p class="text-sm text-gray-500">CF: VRDGPP70C15L219Y</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-gray-600">giuseppe.verdi@email.com</td>
+                                <td class="p-4 text-gray-600">+39 320 5551234</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Attivo</span>
+                                </td>
+                                <td class="p-4 text-center font-semibold text-nexus-dark">5</td>
+                                <td class="p-4">
+                                    <button class="text-nexus-blue hover:text-blue-700 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-green-600 hover:text-green-700 mr-3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="section-contracts" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-nexus-dark">Gestione Contratti</h3>
+                    <button class="bg-nexus-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Nuovo Contratto
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                        <option>Tutti i tipi</option>
+                        <option>Elettricità</option>
+                        <option>Gas</option>
+                    </select>
+                    <select class="px-4 py-2 border border-gray-300 rounded-lg">
+                        <option>Tutti gli stati</option>
+                        <option>Pending</option>
+                        <option>Accepted</option>
+                        <option>Rejected</option>
+                    </select>
+                    <input type="date" class="px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+
+                <!-- Contracts Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Accepted</span>
+                            <span class="text-sm text-gray-500">Scade: 15/12/2025</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-nexus-dark mb-2">Contratto Luce Residenziale</h4>
+                        <p class="text-gray-600 mb-4">
+                            <i class="fas fa-user mr-2 text-nexus-red"></i>
+                            Mario Rossi
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500">Tipo</p>
+                                <p class="font-semibold text-nexus-dark">Elettricità</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">POD</p>
+                                <p class="font-semibold text-nexus-dark">IT001E12345678</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t flex justify-between">
+                            <button class="text-nexus-blue hover:text-blue-700">
+                                <i class="fas fa-eye mr-2"></i>Dettagli
+                            </button>
+                            <button class="text-green-600 hover:text-green-700">
+                                <i class="fas fa-edit mr-2"></i>Modifica
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium">Pending</span>
+                            <span class="text-sm text-gray-500">Scade: 20/11/2025</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-nexus-dark mb-2">Contratto Gas Metano</h4>
+                        <p class="text-gray-600 mb-4">
+                            <i class="fas fa-user mr-2 text-nexus-red"></i>
+                            Laura Bianchi
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500">Tipo</p>
+                                <p class="font-semibold text-nexus-dark">Gas</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">PDR</p>
+                                <p class="font-semibold text-nexus-dark">09876543210123</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t flex justify-between">
+                            <button class="text-nexus-blue hover:text-blue-700">
+                                <i class="fas fa-eye mr-2"></i>Dettagli
+                            </button>
+                            <button class="text-green-600 hover:text-green-700">
+                                <i class="fas fa-edit mr-2"></i>Modifica
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Utilities Section -->
+        <div id="section-utilities" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-2xl font-bold text-nexus-dark mb-6">Punti di Fornitura</h3>
+
+                <div class="space-y-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-bolt text-yellow-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-nexus-dark">Utenza Elettrica</h4>
+                                    <p class="text-sm text-gray-600">Mario Rossi - Via Roma 123, Milano</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Attivo</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">POD</p>
+                                <p class="font-semibold text-nexus-dark">IT001E12345678</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Potenza</p>
+                                <p class="font-semibold text-nexus-dark">3 kW</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Consumo Annuo</p>
+                                <p class="font-semibold text-nexus-dark">2.800 kWh</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Fornitore</p>
+                                <p class="font-semibold text-nexus-dark">ENEL Energia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-fire text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-nexus-dark">Utenza Gas</h4>
+                                    <p class="text-sm text-gray-600">Laura Bianchi - Via Dante 45, Roma</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Attivo</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">PDR</p>
+                                <p class="font-semibold text-nexus-dark">09876543210123</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Tipo Contatore</p>
+                                <p class="font-semibold text-nexus-dark">G4</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Consumo Annuo</p>
+                                <p class="font-semibold text-nexus-dark">1.200 Smc</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Fornitore</p>
+                                <p class="font-semibold text-nexus-dark">ENI Plenitude</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activities Section -->
+        <div id="section-activities" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-nexus-dark">Calendario Attività</h3>
+                    <button class="bg-nexus-red text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Nuova Attività
+                    </button>
+                </div>
+
+                <!-- Calendar View -->                <div class="space-y-4">
+                    <div class="border-l-4 border-nexus-blue bg-blue-50 p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-bold text-nexus-dark">Consulenza con Giuseppe Verdi</h4>
+                            <span class="text-sm text-gray-600">Domani 10:00</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">Presentazione offerta gas metano per abitazione principale</p>
+                        <div class="mt-3 flex items-center space-x-4">
+                            <button class="text-nexus-blue hover:text-blue-700 text-sm">
+                                <i class="fas fa-check mr-1"></i>Completa
+                            </button>
+                            <button class="text-green-600 hover:text-green-700 text-sm">
+                                <i class="fas fa-edit mr-1"></i>Modifica
+                            </button>
+                            <button class="text-red-600 hover:text-red-700 text-sm">
+                                <i class="fas fa-times mr-1"></i>Annulla
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-orange-500 bg-orange-50 p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-bold text-nexus-dark">Follow-up Mario Rossi</h4>
+                            <span class="text-sm text-gray-600">Oggi 14:30</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">Verifica soddisfazione servizio e proposta secondo contratto</p>
+                        <div class="mt-3 flex items-center space-x-4">
+                            <button class="text-nexus-blue hover:text-blue-700 text-sm">
+                                <i class="fas fa-check mr-1"></i>Completa
+                            </button>
+                            <button class="text-green-600 hover:text-green-700 text-sm">
+                                <i class="fas fa-edit mr-1"></i>Modifica
+                            </button>
+                            <button class="text-red-600 hover:text-red-700 text-sm">
+                                <i class="fas fa-times mr-1"></i>Annulla
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-bold text-nexus-dark">Caricamento bolletta Laura Bianchi</h4>
+                            <span class="text-sm text-gray-600">Venerdì 09:00</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">Import bolletta ENEL e preparazione preventivo personalizzato</p>
+                        <div class="mt-3 flex items-center space-x-4">
+                            <button class="text-nexus-blue hover:text-blue-700 text-sm">
+                                <i class="fas fa-check mr-1"></i>Completa
+                            </button>
+                            <button class="text-green-600 hover:text-green-700 text-sm">
+                                <i class="fas fa-edit mr-1"></i>Modifica
+                            </button>
+                            <button class="text-red-600 hover:text-red-700 text-sm">
+                                <i class="fas fa-times mr-1"></i>Annulla
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('it-IT', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-nexus-red');
+                link.classList.add('hover:bg-gray-700');
+            });
+            
+            // Show selected section
+            document.getElementById('section-' + sectionName).classList.remove('hidden');
+            
+            // Add active class to clicked nav link
+            event.target.closest('.nav-link').classList.add('bg-nexus-red');
+            event.target.closest('.nav-link').classList.remove('hover:bg-gray-700');
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'clients': 'Gestione Clienti',
+                'contracts': 'Gestione Contratti',
+                'utilities': 'Punti di Fornitura',
+                'activities': 'Calendario Attività'
+            };
+            document.querySelector('h2').textContent = titles[sectionName];
+        }
+
+        // Refresh Data
+        function refreshData() {
+            const button = event.target.closest('button');
+            const icon = button.querySelector('i');
+            
+            // Animate icon
+            icon.classList.add('fa-spin');
+            
+            // Simulate data refresh
+            setTimeout(() => {
+                icon.classList.remove('fa-spin');
+                
+                // Update random stats
+                const totalClients = Math.floor(Math.random() * 50) + 230;
+                const activeContracts = Math.floor(Math.random() * 40) + 170;
+                const expiringContracts = Math.floor(Math.random() * 15) + 15;
+                const todayActivities = Math.floor(Math.random() * 5) + 5;
+                
+                document.getElementById('totalClients').textContent = totalClients;
+                document.getElementById('activeContracts').textContent = activeContracts;
+                document.getElementById('expiringContracts').textContent = expiringContracts;
+                document.getElementById('todayActivities').textContent = todayActivities;
+                
+                // Show notification
+                alert('Dati aggiornati con successo!');
+            }, 1000);
+        }
+
+        // Charts
+        const ctx1 = document.getElementById('contractsChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Contratti Firmati',
+                    data: [12, 19, 15, 22, 18, 25, 23, 28, 24, 30, 27, 32],
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('clientsChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Attivi', 'Prospect', 'Inattivi'],
+                datasets: [{
+                    data: [147, 68, 32],
+                    backgroundColor: [
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Counter Animation
+        function animateCounter(elementId, target) {
+            const element = document.getElementById(elementId);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 20);
+        }
+
+        // Animate counters on page load
+        window.addEventListener('load', () => {
+            animateCounter('totalClients', 247);
+            animateCounter('activeContracts', 189);
+            animateCounter('expiringContracts', 23);
+            animateCounter('todayActivities', 7);
+        });
+
+        // Prevent link navigation
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

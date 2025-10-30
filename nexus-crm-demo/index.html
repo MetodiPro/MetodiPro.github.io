@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS CRM - Sistema di Gestione per Consulenti Energetici | Demo</title>
+    <meta name="description" content="NEXUS CRM: piattaforma completa per consulenti energetici. Gestione clienti, contratti, utenze, dashboard analytics, import bollette ENEL e notifiche automatiche.">
+    <meta name="keywords" content="CRM energia, gestione clienti energia, consulenti energetici, POD PDR, bollette ENEL, contratti luce gas">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nexus-red': '#dc2626',
+                        'nexus-dark': '#374151',
+                        'nexus-blue': '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .stat-item {
+            animation: fadeInUp 1s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .demo-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(220, 38, 38, 0.6);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <!-- Demo Banner -->
+    <div class="demo-badge fixed top-4 right-4 z-50 bg-nexus-red text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+        <i class="fas fa-eye mr-2"></i>Demo Version
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-nexus-red rounded-lg flex items-center justify-center">
+                        <i class="fas fa-bolt text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-nexus-dark">NEXUS CRM</h1>
+                        <p class="text-sm text-gray-600">Sistema di Gestione Energetica</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#features" class="text-gray-700 hover:text-nexus-red transition-colors">Funzionalità</a>
+                    <a href="#benefits" class="text-gray-700 hover:text-nexus-red transition-colors">Vantaggi</a>
+                    <a href="#contact" class="text-gray-700 hover:text-nexus-red transition-colors">Contatti</a>
+                    <a href="https://metodipro.github.io" class="text-gray-700 hover:text-nexus-red transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>Torna al Portfolio
+                    </a>
+                    <a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="bg-nexus-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#features" class="text-gray-700 hover:text-nexus-red transition-colors">Funzionalità</a>
+                    <a href="#benefits" class="text-gray-700 hover:text-nexus-red transition-colors">Vantaggi</a>
+                    <a href="#contact" class="text-gray-700 hover:text-nexus-red transition-colors">Contatti</a>
+                    <a href="https://metodipro.github.io" class="text-gray-700 hover:text-nexus-red transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>Torna al Portfolio
+                    </a>
+                    <a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="bg-nexus-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold text-center">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-bold text-nexus-dark mb-6">
+                    Il CRM per 
+                    <span class="text-nexus-red">Consulenti Energetici</span>
+                </h2>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Gestisci clienti, contratti, utenze e attività in un'unica piattaforma avanzata. 
+                    Con dashboard analytics, notifiche automatiche e import bollette ENEL.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="bg-nexus-red text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-red-700 transition-all transform hover:scale-105 shadow-lg">
+                        <i class="fab fa-github mr-2"></i>
+                        Vedi su GitHub
+                    </a>
+                    <a href="#features" class="bg-white text-nexus-dark px-8 py-4 rounded-lg text-lg font-semibold border border-gray-300 hover:border-nexus-red hover:text-nexus-red transition-all shadow-lg">
+                        <i class="fas fa-play mr-2"></i>
+                        Scopri di Più
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-nexus-dark text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="stat-item">
+                    <div class="text-4xl font-bold text-nexus-red mb-2">100%</div>
+                    <div class="text-gray-300">Sicurezza Dati</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-4xl font-bold text-nexus-red mb-2">24/7</div>
+                    <div class="text-gray-300">Disponibilità</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-4xl font-bold text-nexus-red mb-2">∞</div>
+                    <div class="text-gray-300">Clienti</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-4xl font-bold text-nexus-red mb-2">5★</div>
+                    <div class="text-gray-300">Esperienza</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->    <section id="features" class="py-20 px-6">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-nexus-dark mb-4">Funzionalità Avanzate</h3>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Tutto quello che serve per gestire professionalmente la tua attività di consulenza energetica
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dashboard Analytics -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-nexus-red rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Dashboard Analytics</h4>
+                    <p class="text-gray-600 mb-4">
+                        KPI in tempo reale, grafici interattivi e performance tracking per monitorare la tua attività
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Clienti per stato (prospect, attivi, inattivi)</li>
+                        <li>• Trend contratti ultimi 12 mesi</li>
+                        <li>• Performance consulenti</li>
+                        <li>• Auto-refresh ogni 5 minuti</li>
+                    </ul>
+                </div>
+
+                <!-- Gestione Clienti -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-nexus-blue rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Gestione Clienti</h4>
+                    <p class="text-gray-600 mb-4">
+                        Anagrafica completa, storico contatti e import automatico da bollette ENEL
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Import automatico bollette ENEL</li>
+                        <li>• Dati anagrafici estesi</li>
+                        <li>• Ricerca avanzata</li>
+                        <li>• Storico interazioni</li>
+                    </ul>
+                </div>
+
+                <!-- Contratti e Offerte -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-file-contract text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Contratti e Offerte</h4>
+                    <p class="text-gray-600 mb-4">
+                        Gestione completa contratti energetici con scadenze automatiche e notifiche
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Contratti elettricità e gas</li>
+                        <li>• Scadenze automatiche</li>
+                        <li>• Stati: pending, accepted, rejected</li>
+                        <li>• Allegati e documenti</li>
+                    </ul>
+                </div>
+
+                <!-- Punti di Fornitura -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-plug text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Punti di Fornitura</h4>
+                    <p class="text-gray-600 mb-4">
+                        Gestione utenze elettriche e gas con POD, PDR e consumi storici
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Codici POD e PDR</li>
+                        <li>• Consumi storici kWh/Smc</li>
+                        <li>• Potenze e tipologie contatori</li>
+                        <li>• Fornitori attuali</li>
+                    </ul>
+                </div>
+
+                <!-- Notifiche Smart -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-bell text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Notifiche Smart</h4>
+                    <p class="text-gray-600 mb-4">
+                        Reminder automatici, scadenze contratti e digest settimanali via email
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Scadenze contratti (30 giorni prima)</li>
+                        <li>• Reminder attività (oggi/domani)</li>
+                        <li>• Digest settimanali consulenti</li>
+                        <li>• Configurazione email SMTP</li>
+                    </ul>
+                </div>
+
+                <!-- Attività e Calendario -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+                    <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-calendar-alt text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-nexus-dark mb-4">Attività e Calendario</h4>
+                    <p class="text-gray-600 mb-4">
+                        Pianificazione appuntamenti, promemoria e gestione completa agenda
+                    </p>
+                    <ul class="text-sm text-gray-500 space-y-1">
+                        <li>• Appuntamenti e promemoria</li>
+                        <li>• Stati: pending, completed, cancelled</li>
+                        <li>• Vista calendario mensile</li>
+                        <li>• Link ai clienti</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 bg-gray-50 px-6">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-nexus-dark mb-4">Perché Scegliere NEXUS CRM</h3>
+                <p class="text-xl text-gray-600">I vantaggi concreti per la tua attività professionale</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="benefit-item flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nexus-red rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-rocket text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-nexus-dark mb-2">Aumenta la Produttività</h4>
+                            <p class="text-gray-600">Automatizza le attività ripetitive e concentrati sui clienti. Import bollette, notifiche automatiche e dashboard analytics ti fanno risparmiare ore di lavoro.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-nexus-blue rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-nexus-dark mb-2">Sicurezza Garantita</h4>
+                            <p class="text-gray-600">Dati crittografati, controllo accessi con ruoli, logging completo delle attività e backup automatici per la massima protezione.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-mobile-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-nexus-dark mb-2">Accesso Ovunque</h4>
+                            <p class="text-gray-600">Design responsive ottimizzato per desktop, tablet e smartphone. Lavora da casa, dall'ufficio o in movimento.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-cogs text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-nexus-dark mb-2">Personalizzabile</h4>
+                            <p class="text-gray-600">Adatta il sistema alle tue esigenze con ruoli utente, notifiche configurabili e campi personalizzabili per ogni tipo di cliente.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:order-first">
+                    <div class="bg-white p-8 rounded-2xl shadow-xl">
+                        <h4 class="text-2xl font-bold text-nexus-dark mb-6 text-center">Risultati Concreti</h4>
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600">Tempo risparmiato/giorno</span>
+                                <span class="text-2xl font-bold text-nexus-red">2-3h</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-nexus-red h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600">Clienti gestibili</span>
+                                <span class="text-2xl font-bold text-nexus-blue">500+</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-nexus-blue h-2 rounded-full" style="width: 95%"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600">Riduzione errori</span>
+                                <span class="text-2xl font-bold text-green-600">90%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->    <section class="py-20 bg-gradient-to-r from-nexus-red to-red-700 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-4xl font-bold mb-6">Pronto a Trasformare la Tua Attività?</h3>
+            <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+                Inizia subito a gestire i tuoi clienti energetici in modo professionale ed efficiente
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="bg-white text-nexus-red px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fab fa-github mr-2"></i>
+                    Scarica da GitHub
+                </a>
+                <a href="dashboard.html" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-nexus-red transition-all shadow-lg">
+                    <i class="fas fa-desktop mr-2"></i>
+                    Prova la Demo Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h4 class="text-2xl font-bold text-nexus-dark text-center mb-8">Stack Tecnologico</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 max-w-6xl mx-auto">
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fab fa-node-js text-4xl text-green-600"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">Node.js</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fas fa-server text-4xl text-gray-700"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">Express</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fas fa-database text-4xl text-blue-600"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">SQLite</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fab fa-js text-4xl text-yellow-500"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">JavaScript</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fab fa-html5 text-4xl text-orange-600"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">HTML5</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fab fa-css3-alt text-4xl text-blue-500"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">TailwindCSS</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fas fa-chart-bar text-4xl text-purple-600"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">Chart.js</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg mb-2">
+                        <i class="fas fa-file-pdf text-4xl text-red-600"></i>
+                    </div>
+                    <p class="text-sm text-gray-600">PDF.js</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-12">
+                <h3 class="text-4xl font-bold text-nexus-dark mb-4">Contattami</h3>
+                <p class="text-xl text-gray-600">Hai domande? Vuoi una consulenza? Contattami ora!</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-nexus-red rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-nexus-dark mb-1">Email</h5>
+                                <a href="mailto:metodipro@gmail.com" class="text-nexus-blue hover:underline">metodipro@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-nexus-blue rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fab fa-github text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-nexus-dark mb-1">GitHub</h5>
+                                <a href="https://github.com/MetodiPro" target="_blank" class="text-nexus-blue hover:underline">github.com/MetodiPro</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-globe text-white"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-nexus-dark mb-1">Portfolio</h5>
+                                <a href="https://metodipro.github.io" target="_blank" class="text-nexus-blue hover:underline">metodipro.github.io</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h5 class="font-bold text-nexus-dark mb-4">Link Rapidi</h5>
+                        <div class="space-y-3">
+                            <a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="block text-gray-600 hover:text-nexus-red transition-colors">
+                                <i class="fas fa-code mr-2"></i>Codice Sorgente
+                            </a>
+                            <a href="https://metodipro.github.io/progetti.html" target="_blank" class="block text-gray-600 hover:text-nexus-red transition-colors">
+                                <i class="fas fa-project-diagram mr-2"></i>Altri Progetti
+                            </a>
+                            <a href="https://metodipro.github.io/blog.html" target="_blank" class="block text-gray-600 hover:text-nexus-red transition-colors">
+                                <i class="fas fa-blog mr-2"></i>Leggi l'Articolo
+                            </a>
+                            <a href="dashboard.html" class="block text-gray-600 hover:text-nexus-red transition-colors">
+                                <i class="fas fa-desktop mr-2"></i>Demo Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-nexus-dark text-white py-12 px-6">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-nexus-red rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bolt text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">NEXUS CRM</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Piattaforma professionale per la gestione di clienti e contratti nel settore energetico.
+                    </p>
+                </div>
+
+                <div>
+                    <h5 class="font-bold mb-4">Funzionalità</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#features" class="hover:text-white transition-colors">Dashboard Analytics</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">Gestione Clienti</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">Contratti e Offerte</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">Notifiche Automatiche</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-bold mb-4">Risorse</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="https://github.com/MetodiPro/nexus-crm" target="_blank" class="hover:text-white transition-colors">GitHub Repository</a></li>
+                        <li><a href="https://metodipro.github.io/blog.html" target="_blank" class="hover:text-white transition-colors">Documentazione</a></li>
+                        <li><a href="dashboard.html" class="hover:text-white transition-colors">Demo Interattiva</a></li>
+                        <li><a href="https://metodipro.github.io" target="_blank" class="hover:text-white transition-colors">Portfolio Completo</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2024 NEXUS CRM - Sviluppato da <a href="https://metodipro.github.io" target="_blank" class="text-nexus-red hover:underline">MetodiPro</a>
+                </p>
+                <p class="text-gray-500 text-xs mt-2">
+                    Demo Version - Dati di esempio • Stack: Node.js, Express, SQLite, TailwindCSS
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    const menu = document.getElementById('mobileMenu');
+                    if (!menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .benefit-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
