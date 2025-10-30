@@ -618,9 +618,10 @@ nav .container {
     gap: 1rem;
 }
 
+/* Updated: 2025-10-30 - Badge styles */
 .benefit {
-    background-color: #111827;
-    color: #ffffff;
+    background-color: #111827 !important;
+    color: #ffffff !important;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     font-size: 0.875rem;
